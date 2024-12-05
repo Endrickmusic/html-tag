@@ -3,7 +3,6 @@ import { useState } from "react"
 
 export default function Experience() {
   const [hovered, setHovered] = useState(false)
-  const [pointerPosition, setPointerPosition] = useState([0, 0, 0])
   const normalMap = useTexture("./textures/waternormals.jpeg")
 
   return (
@@ -12,31 +11,9 @@ export default function Experience() {
       <mesh
         rotation={[Math.PI / 4, Math.PI / 4, Math.PI / 2]}
         position={[0, 0, 0]}
-        onPointerEnter={(e) => {
-          setHovered(true)
-          setPointerPosition([e.point.x, e.point.y, e.point.z])
-        }}
-        onPointerMove={(e) => {
-          setPointerPosition([e.point.y, -e.point.x, e.point.z])
-        }}
+        onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
       >
-        {hovered && (
-          <Html position={pointerPosition}>
-            <div
-              style={{
-                background: "black",
-                padding: "8px",
-                color: "white",
-                borderRadius: "4px",
-                transform: "translate(-50%, -100%)",
-                pointerEvents: "none",
-              }}
-            >
-              Hover Tag
-            </div>
-          </Html>
-        )}
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <meshStandardMaterial
           metalness={1}
@@ -45,6 +22,28 @@ export default function Experience() {
           normalScale={[0.2, 0.2]}
         />
       </mesh>
+
+      {hovered && (
+        <Html>
+          <div
+            style={{
+              position: "fixed",
+              // left: "10%", // Center horizontally
+              // top: "30%", // Adjust vertical position as needed
+              background: "white",
+              border: "1px solid black",
+              padding: "10px 20px",
+              color: "#000000",
+              borderRadius: "1px",
+              transform: "translate(-350%, -350%)", // Center the tag
+              pointerEvents: "none",
+              zIndex: 1000,
+            }}
+          >
+            Hover Tag
+          </div>
+        </Html>
+      )}
     </>
   )
 }
